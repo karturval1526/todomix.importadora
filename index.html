@@ -1,1 +1,731 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Todomix Importadora | Catalogo mayorista y detal</title>
+  <meta name="description" content="Todomix Importadora: productos variados desde $9.999, ventas al mayor y detal, envios a toda Colombia y atencion por WhatsApp.">
+  <style>
+    :root {
+      --ink: #14213d;
+      --text: #20232d;
+      --muted: #646b7a;
+      --line: #e4e8f0;
+      --paper: #f6f8fb;
+      --white: #ffffff;
+      --red: #e63946;
+      --gold: #fca311;
+      --teal: #2a9d8f;
+      --green: #25d366;
+      --radius: 8px;
+      --shadow: 0 18px 45px rgba(20, 33, 61, .12);
+    }
 
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    .topbar {
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .topbar .container {
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 8px 0;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, .95);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .nav .container {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 240px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .brand-mark {
+      width: 58px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #fff;
+      background: linear-gradient(135deg, var(--red), var(--gold) 52%, var(--teal));
+      box-shadow: 0 12px 28px rgba(230, 57, 70, .22);
+      font-size: 21px;
+      letter-spacing: 0;
+    }
+    .brand span { display: block; color: var(--muted); font-size: 13px; font-weight: 800; }
+    .menu { display: flex; align-items: center; gap: 20px; color: var(--ink); font-weight: 800; font-size: 14px; }
+    .menu a:hover { color: var(--red); }
+
+    .btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 900;
+      white-space: nowrap;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--red); color: #fff; box-shadow: 0 14px 30px rgba(230, 57, 70, .22); }
+    .btn-dark { background: var(--ink); color: #fff; }
+    .btn-light { background: #fff; color: var(--ink); border-color: var(--line); }
+    .btn-whatsapp { background: var(--green); color: #fff; box-shadow: 0 12px 28px rgba(37, 211, 102, .22); }
+
+    .hero {
+      background: linear-gradient(180deg, #fff 0%, #f6f8fb 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-grid {
+      min-height: calc(100vh - 116px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 520px);
+      gap: 54px;
+      align-items: center;
+      padding: 58px 0;
+    }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 16px;
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 30px; height: 3px; border-radius: 8px; background: var(--gold); }
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: .95;
+      letter-spacing: 0;
+    }
+    .hero-copy {
+      max-width: 650px;
+      margin: 20px 0 28px;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .hero-image {
+      aspect-ratio: 1 / .92;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .hero-points {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .point {
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .point strong { display: block; color: var(--ink); font-size: 24px; line-height: 1; }
+    .point span { display: block; margin-top: 6px; color: var(--muted); font-weight: 800; font-size: 13px; }
+
+    section { padding: 76px 0; }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+    .section-head h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(30px, 4.4vw, 50px);
+      line-height: 1;
+    }
+    .section-head p { max-width: 560px; margin: 0; color: var(--muted); font-size: 16px; }
+    .band { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .category-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 24px rgba(20, 33, 61, .06);
+    }
+    .category-card img { aspect-ratio: 4 / 3; height: auto; }
+    .category-card div { padding: 16px; }
+    .category-card h3 { margin: 0 0 7px; color: var(--ink); font-size: 22px; }
+    .category-card p { min-height: 72px; margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+    .text-link { color: var(--red); font-weight: 900; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .product-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .product-media { aspect-ratio: 4 / 3; background: #edf1f6; }
+    .product-info { padding: 16px; }
+    .sku {
+      display: inline-flex;
+      min-height: 26px;
+      align-items: center;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(42, 157, 143, .12);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .product-card h3 { min-height: 54px; margin: 12px 0 8px; color: var(--ink); font-size: 20px; line-height: 1.2; }
+    .product-card p { min-height: 66px; margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-weight: 900;
+    }
+    .price-row strong { color: var(--red); font-size: 21px; }
+    .price-row span { color: var(--muted); font-size: 12px; text-align: right; }
+    .product-card .btn { width: 100%; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .panel {
+      min-height: 410px;
+      display: grid;
+      grid-template-columns: .9fr 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 24px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: var(--ink);
+      overflow: hidden;
+    }
+    .panel:nth-child(2) { background: #1f2937; }
+    .panel img {
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    .panel h3 { margin: 0 0 12px; font-size: clamp(28px, 4vw, 42px); line-height: 1; }
+    .panel p { margin: 0 0 20px; color: rgba(255, 255, 255, .82); font-size: 16px; }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .trust-image {
+      min-height: 470px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+    .steps {
+      display: grid;
+      gap: 12px;
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 14px;
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .step b {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fff;
+    }
+    .step h3 { margin: 0 0 5px; color: var(--ink); font-size: 20px; }
+    .step p { margin: 0; color: var(--muted); }
+
+    .faq {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    details {
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    summary { cursor: pointer; color: var(--ink); font-size: 18px; font-weight: 900; }
+    details p { margin: 12px 0 0; color: var(--muted); }
+
+    .contact {
+      padding: 0;
+      color: #fff;
+      background: var(--ink);
+    }
+    .contact .container {
+      min-height: 520px;
+      display: grid;
+      grid-template-columns: 1fr 410px;
+      gap: 42px;
+      align-items: center;
+      padding: 72px 0;
+    }
+    .contact h2 { margin: 0 0 14px; font-size: clamp(34px, 5vw, 58px); line-height: 1; color: #fff; }
+    .contact p { max-width: 650px; margin: 0 0 24px; color: rgba(255,255,255,.78); font-size: 18px; }
+    .contact-card {
+      padding: 24px;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--text);
+      box-shadow: var(--shadow);
+    }
+    .contact-card h3 { margin: 0 0 15px; color: var(--ink); font-size: 24px; }
+    label { display: block; margin: 12px 0 6px; color: var(--ink); font-size: 13px; font-weight: 900; }
+    input, select, textarea {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+    textarea { min-height: 95px; resize: vertical; }
+    .contact-card .btn { width: 100%; margin-top: 14px; border: 0; font: inherit; font-weight: 900; }
+
+    .footer { padding: 32px 0; color: #fff; background: #0d1528; }
+    .footer .container { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+    .footer p { margin: 0; color: rgba(255,255,255,.76); }
+    .floating-whatsapp {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 30;
+      width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--green);
+      box-shadow: 0 16px 34px rgba(37, 211, 102, .35);
+      font-weight: 900;
+      font-size: 24px;
+    }
+
+    @media (max-width: 1040px) {
+      .menu { display: none; }
+      .hero-grid, .trust-grid, .contact .container { grid-template-columns: 1fr; }
+      .category-grid, .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .split { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .container { width: min(100% - 22px, 1180px); }
+      .topbar .container, .section-head, .footer .container { align-items: flex-start; flex-direction: column; }
+      .brand { min-width: 0; }
+      .brand strong { font-size: 15px; }
+      .nav .btn { padding: 10px 12px; font-size: 13px; }
+      .hero-grid { min-height: auto; padding: 46px 0; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .hero-actions .btn, .category-grid, .product-grid, .faq, .hero-points { grid-template-columns: 1fr; }
+      .category-grid, .product-grid, .faq { display: grid; }
+      .panel { grid-template-columns: 1fr; }
+      section { padding: 54px 0; }
+      .trust-image { min-height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container">
+      <span>Productos importados desde $9.999</span>
+      <span>Envios a toda Colombia | WhatsApp +57 316 734 1294</span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="container">
+      <a class="brand" href="#inicio" aria-label="Todomix Importadora">
+        <span class="brand-mark">TM</span>
+        <strong>Todomix Importadora <span>Mayoristas, detal y novedades</span></strong>
+      </a>
+      <nav class="menu" aria-label="Principal">
+        <a href="#catalogo">Catalogo</a>
+        <a href="#productos">Productos</a>
+        <a href="#mayoristas">Mayoristas</a>
+        <a href="#envios">Envios</a>
+      </nav>
+      <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero recibir el catalogo completo.">WhatsApp</a>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Importadora para vender y surtir</p>
+          <h1>Productos atractivos para todos los negocios</h1>
+          <p class="hero-copy">En Todomix encuentras tecnologia, hogar, belleza, moda, juguetes, ferreteria, oficina y accesorios con atencion directa por WhatsApp, precios desde $9.999 y envios a toda Colombia.</p>
+          <div class="hero-actions">
+            <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar productos y recibir el catalogo.">Cotizar por WhatsApp</a>
+            <a class="btn btn-light" href="#productos">Ver destacados</a>
+          </div>
+          <div class="hero-points">
+            <div class="point"><strong>$9.999</strong><span>Precio desde</span></div>
+            <div class="point"><strong>8</strong><span>Lineas de producto</span></div>
+            <div class="point"><strong>57</strong><span>Envios nacionales</span></div>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJUb2RvbWl4IEltcG9ydGFkb3JhIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNlNjM5NDYiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cmVjdCB4PSIxMDUiIHk9IjI5MiIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIxOTAiIHJ4PSIxOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSIzOTIiIHk9IjI0MCIgd2lkdGg9IjI0NSIgaGVpZ2h0PSIyNDIiIHJ4PSIxOCIgZmlsbD0iI2ZjYTMxMSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSI2ODAiIHk9IjMwOCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSIxNzQiIHJ4PSIxOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMTA1IDM1MGgyNDVNMzkyIDMxMGgyNDVNNjgwIDM2NWgyMjBNMjI3IDI5MnYxOTBNNTE1IDI0MHYyNDJNNzkwIDMwOHYxNzQiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTMwIDU2NWg3NjVsODItNzAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSIyNjAiIGN5PSI1OTUiIHI9IjQ0IiBmaWxsPSIjMTQyMTNkIi8+PGNpcmNsZSBjeD0iNzYwIiBjeT0iNTk1IiByPSI0NCIgZmlsbD0iIzE0MjEzZCIvPjxwYXRoIGQ9Ik0xNzAgMTkwaDY1MGw5NSAxMThIMjYwbC05MC0xMThaIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuOSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgIDxyZWN0IHg9IjU0IiB5PSI1MiIgd2lkdGg9IjM5MCIgaGVpZ2h0PSI5MiIgcng9IjEwIiBmaWxsPSIjMTQyMTNkIiBvcGFjaXR5PSIuOTQiLz4KICAgIDx0ZXh0IHg9IjgyIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5Ub2RvbWl4IEltcG9ydGFkb3JhPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPlByb2R1Y3Rvcywgc3VydGlkbyB5IGVudmlvcyBhIENvbG9tYmlhPC90ZXh0PgogIDwvc3ZnPg==" alt="Bodega de productos importados Todomix">
+        </div>
+      </div>
+    </section>
+
+    <section id="catalogo">
+      <div class="container">
+        <div class="section-head">
+          <h2>Catalogo por secciones</h2>
+          <p>Una vitrina clara para que el cliente encuentre rapido lo que necesita y te escriba por WhatsApp para confirmar disponibilidad.</p>
+        </div>
+        <div class="category-grid">
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJUZWNub2xvZ2lhIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyYTlkOGYiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cmVjdCB4PSIyNDUiIHk9IjE1NSIgd2lkdGg9IjI0MCIgaGVpZ2h0PSI0MzAiIHJ4PSIzOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSI1NDgiIHk9IjI2MCIgd2lkdGg9IjIyMCIgaGVpZ2h0PSIyNDAiIHJ4PSIzNCIgZmlsbD0iIzJhOWQ4ZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMzI1IDIyNWg4Mk0zMTggNTI1aDk1TTU5MCAzNDBoMTM1TTU5MCAzOThoMTM1IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNzQ4IiBjeT0iMTgwIiByPSI2MiIgZmlsbD0iI2ZjYTMxMSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgIDxyZWN0IHg9IjU0IiB5PSI1MiIgd2lkdGg9IjM5MCIgaGVpZ2h0PSI5MiIgcng9IjEwIiBmaWxsPSIjMTQyMTNkIiBvcGFjaXR5PSIuOTQiLz4KICAgIDx0ZXh0IHg9IjgyIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5UZWNub2xvZ2lhPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkF1ZGlmb25vcywgY2FyZ2Fkb3JlcyB5IGFjY2Vzb3Jpb3M8L3RleHQ+CiAgPC9zdmc+" alt="Tecnologia">
+            <div>
+              <h3>Tecnologia</h3>
+              <p>Audifonos, cargadores, soportes, luces y accesorios para celulares.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver productos de tecnologia.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJIb2dhciI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmE5ZDhmIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmNhMzExIi8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHBhdGggZD0iTTE2MCAzMzAgNTAwIDk2bDM0MCAyMzQiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48cmVjdCB4PSIyMzUiIHk9IjMzMCIgd2lkdGg9IjUzMCIgaGVpZ2h0PSIzMTUiIHJ4PSIyMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSIzMjQiIHk9IjQyMCIgd2lkdGg9IjE0MiIgaGVpZ2h0PSIyMjUiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNTQ1IiB5PSI0MTUiIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMmE5ZDhmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkhvZ2FyPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPk9yZ2FuaXphY2lvbiwgY29jaW5hIHkgc29sdWNpb25lcyB1dGlsZXM8L3RleHQ+CiAgPC9zdmc+" alt="Hogar">
+            <div>
+              <h3>Hogar</h3>
+              <p>Organizadores, cocina, decoracion y articulos practicos para casa.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver productos para el hogar.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJCZWxsZXphIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNlNjM5NDYiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmY2EzMTEiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cmVjdCB4PSIyNDUiIHk9IjI1NSIgd2lkdGg9IjE4MCIgaGVpZ2h0PSIzNDUiIHJ4PSIyNiIgZmlsbD0iI2U2Mzk0NiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSI1MjAiIHk9IjE3MCIgd2lkdGg9IjE1MCIgaGVpZ2h0PSI0MzAiIHJ4PSI3MCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNNTkzIDEwNXYxMTVNMzAwIDI1NXYtOTBoNzB2OTBNMjE1IDY0MGg1NzAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI3NDAiIGN5PSIzMjUiIHI9IjY4IiBmaWxsPSIjZmNhMzExIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkJlbGxlemE8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNjU2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZmZmZiI+Q3VpZGFkbyBwZXJzb25hbCB5IHRlbmRlbmNpYTwvdGV4dD4KICA8L3N2Zz4=" alt="Belleza">
+            <div>
+              <h3>Belleza</h3>
+              <p>Cuidado personal, maquillaje, accesorios y productos de tendencia.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver productos de belleza.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNb2RhIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNlNjM5NDYiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cGF0aCBkPSJNMjg1IDMyMGMwLTk2IDc4LTE3MCAxNzQtMTcwaDgyYzk2IDAgMTc0IDc0IDE3NCAxNzB2Mjg2SDI4NVYzMjBaIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0zNjcgMzIwYzAtNjggNTItMTA4IDEzMy0xMDhzMTMzIDQwIDEzMyAxMDgiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMjIwIDYwN2g1NjAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI3MjUiIGN5PSIyMDgiIHI9IjY0IiBmaWxsPSIjZTYzOTQ2IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPk1vZGE8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNjU2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZmZmZiI+Qm9sc29zLCBnYWZhcyB5IGNvbXBsZW1lbnRvczwvdGV4dD4KICA8L3N2Zz4=" alt="Moda">
+            <div>
+              <h3>Moda</h3>
+              <p>Bolsos, gafas, relojes, bisuteria y complementos llamativos.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver moda y accesorios.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJKdWd1ZXRlcyI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmNhMzExIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTYzOTQ2Ii8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHJlY3QgeD0iMjEwIiB5PSIzMDUiIHdpZHRoPSIxOTgiIGhlaWdodD0iMTk4IiByeD0iMjIiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNDU1IiB5PSIyNDAiIHdpZHRoPSIxOTgiIGhlaWdodD0iMjYzIiByeD0iMjIiIGZpbGw9IiMyYTlkOGYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGNpcmNsZSBjeD0iNzY1IiBjeT0iMzgyIiByPSIxMDIiIGZpbGw9IiNlNjM5NDYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTI2MCAzNzBoOThNNTA1IDMxMGg5OE02OTUgMzgyaDE0MCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkp1Z3VldGVzPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPlJlZ2Fsb3MgeSBkaWRhY3RpY29zPC90ZXh0PgogIDwvc3ZnPg==" alt="Juguetes">
+            <div>
+              <h3>Juguetes</h3>
+              <p>Regalos, juegos didacticos, temporada y entretenimiento familiar.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver juguetes y regalos.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJGZXJyZXRlcmlhIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmY2EzMTEiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cGF0aCBkPSJNMjcwIDE5MmwxNzggMTc4LTgyIDgyLTE3OC0xNzggODItODJaIiBmaWxsPSIjZmNhMzExIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik01NjAgMTcyYzY1LTM0IDE0OC0yMCAxOTkgMzRsLTExMSAxMTEgMTA4IDEwOGMtNTcgNTMtMTQzIDYxLTIwNiAxNi04Mi01OC05NC0xNzctMjUtMjQ2IDExLTEwIDIyLTE4IDM1LTIzWiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMTcwIDYzMGg2NjAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz4KICAgIDxyZWN0IHg9IjU0IiB5PSI1MiIgd2lkdGg9IjM5MCIgaGVpZ2h0PSI5MiIgcng9IjEwIiBmaWxsPSIjMTQyMTNkIiBvcGFjaXR5PSIuOTQiLz4KICAgIDx0ZXh0IHg9IjgyIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5GZXJyZXRlcmlhPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkhlcnJhbWllbnRhcyB5IGFydGljdWxvcyBwcmFjdGljb3M8L3RleHQ+CiAgPC9zdmc+" alt="Ferreteria">
+            <div>
+              <h3>Ferreteria</h3>
+              <p>Herramientas, linternas, seguridad y soluciones para el dia a dia.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver ferreteria y herramientas.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJPZmljaW5hIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyYTlkOGYiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cmVjdCB4PSIyNDUiIHk9IjE2NSIgd2lkdGg9IjUxMCIgaGVpZ2h0PSI0MTUiIHJ4PSIyNiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMzMwIDI3MGgzNDBNMzMwIDM2MGgzNDBNMzMwIDQ1MGgyMzAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48cmVjdCB4PSI3ODUiIHk9IjIxOCIgd2lkdGg9Ijg2IiBoZWlnaHQ9IjMyMCIgcng9IjI2IiBmaWxsPSIjZmNhMzExIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik04MjggNTM4djk1bC00My05NSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPk9maWNpbmE8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNjU2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZmZmZiI+UGFwZWxlcmlhIHkgdXRpbGVzIGVzY29sYXJlczwvdGV4dD4KICA8L3N2Zz4=" alt="Oficina">
+            <div>
+              <h3>Oficina</h3>
+              <p>Papeleria, organizadores, escritorio, utiles escolares y oficina.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver oficina y papeleria.">Consultar categoria</a>
+            </div>
+          </article>
+          <article class="category-card">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJBdXRvIHkgbW90byI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTQyMTNkIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMmE5ZDhmIi8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHBhdGggZD0iTTE3MCA0MDVoNjYwbC03MC0xNjVIMjU1bC04NSAxNjVaIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0yMDUgNDA1djExMmg1OTBWNDA1TTMwNSA1MTdhNTIgNTIgMCAxIDAgMCAxTTY4OCA1MTdhNTIgNTIgMCAxIDAgMCAxIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTM0MCAyODZoMzE1IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICA8cmVjdCB4PSI1NCIgeT0iNTIiIHdpZHRoPSIzOTAiIGhlaWdodD0iOTIiIHJ4PSIxMCIgZmlsbD0iIzE0MjEzZCIgb3BhY2l0eT0iLjk0Ii8+CiAgICA8dGV4dCB4PSI4MiIgeT0iMTA2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiI+QXV0byB5IG1vdG88L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNjU2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZmZmZiI+QWNjZXNvcmlvcyBwYXJhIGVsIGNhbWlubzwvdGV4dD4KICA8L3N2Zz4=" alt="Auto y moto">
+            <div>
+              <h3>Auto y moto</h3>
+              <p>Soportes, luces, limpieza, organizadores y accesorios para vehiculos.</p>
+              <a class="text-link js-whatsapp" href="#" data-message="Hola Todomix, quiero ver accesorios para auto y moto.">Consultar categoria</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="productos" class="band">
+      <div class="container">
+        <div class="section-head">
+          <h2>Productos destacados</h2>
+          <p>Referencias llamativas para activar consultas. Todos los productos pueden cotizarse al mayor o al detal segun disponibilidad.</p>
+        </div>
+        <div class="product-grid">
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJBdWRpZm9ub3MiPgogICAgPGRlZnM+CiAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE0MjEzZCIvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzJhOWQ4ZiIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICA8cGF0aCBkPSJNNDQgMEgwVjQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMTMiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZykiLz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNncmlkKSIvPgogICAgPHJlY3QgeD0iNDIiIHk9IjQyIiB3aWR0aD0iOTE2IiBoZWlnaHQ9IjYzNiIgcng9IjMyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuMTYiLz4KICAgIDxyZWN0IHg9IjI0NSIgeT0iMTU1IiB3aWR0aD0iMjQwIiBoZWlnaHQ9IjQzMCIgcng9IjM4IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxyZWN0IHg9IjU0OCIgeT0iMjYwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjI0MCIgcng9IjM0IiBmaWxsPSIjMmE5ZDhmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0zMjUgMjI1aDgyTTMxOCA1MjVoOTVNNTkwIDM0MGgxMzVNNTkwIDM5OGgxMzUiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48Y2lyY2xlIGN4PSI3NDgiIGN5PSIxODAiIHI9IjYyIiBmaWxsPSIjZmNhMzExIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkF1ZGlmb25vczwvdGV4dD4KICAgIDx0ZXh0IHg9IjgyIiB5PSI2NTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmZmZmIj5EZXNkZSAkOS45OTk8L3RleHQ+CiAgPC9zdmc+" alt="Audifonos inalambricos"></div>
+            <div class="product-info">
+              <span class="sku">TEC-101</span>
+              <h3>Audifonos inalambricos</h3>
+              <p>Producto de alta rotacion para vitrinas, regalos y ventas online.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Audifonos inalambricos.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJPcmdhbml6YWRvcmVzIj4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMyYTlkOGYiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmY2EzMTEiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cGF0aCBkPSJNMTYwIDMzMCA1MDAgOTZsMzQwIDIzNCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxyZWN0IHg9IjIzNSIgeT0iMzMwIiB3aWR0aD0iNTMwIiBoZWlnaHQ9IjMxNSIgcng9IjIyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxyZWN0IHg9IjMyNCIgeT0iNDIwIiB3aWR0aD0iMTQyIiBoZWlnaHQ9IjIyNSIgZmlsbD0iI2ZjYTMxMSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cmVjdCB4PSI1NDUiIHk9IjQxNSIgd2lkdGg9IjE1MCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMyYTlkOGYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgICA8cmVjdCB4PSI1NCIgeT0iNTIiIHdpZHRoPSIzOTAiIGhlaWdodD0iOTIiIHJ4PSIxMCIgZmlsbD0iIzE0MjEzZCIgb3BhY2l0eT0iLjk0Ii8+CiAgICA8dGV4dCB4PSI4MiIgeT0iMTA2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiI+T3JnYW5pemFkb3JlczwvdGV4dD4KICAgIDx0ZXh0IHg9IjgyIiB5PSI2NTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmZmZmIj5EZXNkZSAkOS45OTk8L3RleHQ+CiAgPC9zdmc+" alt="Organizadores de cocina"></div>
+            <div class="product-info">
+              <span class="sku">HOG-214</span>
+              <h3>Organizadores de cocina</h3>
+              <p>Soluciones utiles para ordenar espacios y mejorar el hogar.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Organizadores de cocina.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJLaXQgYmVsbGV6YSI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZTYzOTQ2Ii8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmNhMzExIi8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHJlY3QgeD0iMjQ1IiB5PSIyNTUiIHdpZHRoPSIxODAiIGhlaWdodD0iMzQ1IiByeD0iMjYiIGZpbGw9IiNlNjM5NDYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNTIwIiB5PSIxNzAiIHdpZHRoPSIxNTAiIGhlaWdodD0iNDMwIiByeD0iNzAiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTU5MyAxMDV2MTE1TTMwMCAyNTV2LTkwaDcwdjkwTTIxNSA2NDBoNTcwIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+PGNpcmNsZSBjeD0iNzQwIiBjeT0iMzI1IiByPSI2OCIgZmlsbD0iI2ZjYTMxMSIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgIDxyZWN0IHg9IjU0IiB5PSI1MiIgd2lkdGg9IjM5MCIgaGVpZ2h0PSI5MiIgcng9IjEwIiBmaWxsPSIjMTQyMTNkIiBvcGFjaXR5PSIuOTQiLz4KICAgIDx0ZXh0IHg9IjgyIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5LaXQgYmVsbGV6YTwvdGV4dD4KICAgIDx0ZXh0IHg9IjgyIiB5PSI2NTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmZmZmIj5EZXNkZSAkOS45OTk8L3RleHQ+CiAgPC9zdmc+" alt="Kit belleza y cuidado"></div>
+            <div class="product-info">
+              <span class="sku">BEL-330</span>
+              <h3>Kit belleza y cuidado</h3>
+              <p>Accesorios para tiendas, peluquerias, spa y compradores finales.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Kit belleza y cuidado.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJMdWNlcyBMRUQiPgogICAgPGRlZnM+CiAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE0MjEzZCIvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2U2Mzk0NiIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICA8cGF0aCBkPSJNNDQgMEgwVjQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMTMiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZykiLz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNncmlkKSIvPgogICAgPHJlY3QgeD0iNDIiIHk9IjQyIiB3aWR0aD0iOTE2IiBoZWlnaHQ9IjYzNiIgcng9IjMyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuMTYiLz4KICAgIDxyZWN0IHg9IjIxMCIgeT0iMTU1IiB3aWR0aD0iNTYwIiBoZWlnaHQ9IjQ0MCIgcng9IjI4IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0zMDAgMjUwaDM4ME0zMDAgMzUwaDM4ME0zMDAgNDUwaDI1MCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxyZWN0IHg9IjMwMCIgeT0iNTAwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjU4IiByeD0iMTIiIGZpbGw9IiMyYTlkOGYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGNpcmNsZSBjeD0iNjkwIiBjeT0iNTIwIiByPSI1NCIgZmlsbD0iI2U2Mzk0NiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz4KICAgIDxyZWN0IHg9IjU0IiB5PSI1MiIgd2lkdGg9IjM5MCIgaGVpZ2h0PSI5MiIgcng9IjEwIiBmaWxsPSIjMTQyMTNkIiBvcGFjaXR5PSIuOTQiLz4KICAgIDx0ZXh0IHg9IjgyIiB5PSIxMDYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjM2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSIjZmZmZmZmIj5MdWNlcyBMRUQ8L3RleHQ+CiAgICA8dGV4dCB4PSI4MiIgeT0iNjU2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyOCIgZm9udC13ZWlnaHQ9IjgwMCIgZmlsbD0iI2ZmZmZmZiI+RGVzZGUgJDkuOTk5PC90ZXh0PgogIDwvc3ZnPg==" alt="Luces LED decorativas"></div>
+            <div class="product-info">
+              <span class="sku">DEC-440</span>
+              <h3>Luces LED decorativas</h3>
+              <p>Ideales para habitaciones, eventos, negocios y vitrinas.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Luces LED decorativas.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJMb25jaGVyYXMiPgogICAgPGRlZnM+CiAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZjYTMxMSIvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzJhOWQ4ZiIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICA8cGF0aCBkPSJNNDQgMEgwVjQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMTMiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZykiLz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNncmlkKSIvPgogICAgPHJlY3QgeD0iNDIiIHk9IjQyIiB3aWR0aD0iOTE2IiBoZWlnaHQ9IjYzNiIgcng9IjMyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuMTYiLz4KICAgIDxyZWN0IHg9IjI0NSIgeT0iMTY1IiB3aWR0aD0iNTEwIiBoZWlnaHQ9IjQxNSIgcng9IjI2IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0zMzAgMjcwaDM0ME0zMzAgMzYwaDM0ME0zMzAgNDUwaDIzMCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxyZWN0IHg9Ijc4NSIgeT0iMjE4IiB3aWR0aD0iODYiIGhlaWdodD0iMzIwIiByeD0iMjYiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTgyOCA1Mzh2OTVsLTQzLTk1IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+CiAgICA8cmVjdCB4PSI1NCIgeT0iNTIiIHdpZHRoPSIzOTAiIGhlaWdodD0iOTIiIHJ4PSIxMCIgZmlsbD0iIzE0MjEzZCIgb3BhY2l0eT0iLjk0Ii8+CiAgICA8dGV4dCB4PSI4MiIgeT0iMTA2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiI+TG9uY2hlcmFzPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkRlc2RlICQ5Ljk5OTwvdGV4dD4KICA8L3N2Zz4=" alt="Loncheras y botellas"></div>
+            <div class="product-info">
+              <span class="sku">ESC-118</span>
+              <h3>Loncheras y botellas</h3>
+              <p>Productos practicos para temporada escolar, oficina y uso diario.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Loncheras y botellas.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJIZXJyYW1pZW50YXMiPgogICAgPGRlZnM+CiAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzE0MjEzZCIvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZjYTMxMSIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICA8cGF0aCBkPSJNNDQgMEgwVjQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMTMiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZykiLz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNncmlkKSIvPgogICAgPHJlY3QgeD0iNDIiIHk9IjQyIiB3aWR0aD0iOTE2IiBoZWlnaHQ9IjYzNiIgcng9IjMyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuMTYiLz4KICAgIDxwYXRoIGQ9Ik0yNzAgMTkybDE3OCAxNzgtODIgODItMTc4LTE3OCA4Mi04MloiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTU2MCAxNzJjNjUtMzQgMTQ4LTIwIDE5OSAzNGwtMTExIDExMSAxMDggMTA4Yy01NyA1My0xNDMgNjEtMjA2IDE2LTgyLTU4LTk0LTE3Ny0yNS0yNDYgMTEtMTAgMjItMTggMzUtMjNaIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxwYXRoIGQ9Ik0xNzAgNjMwaDY2MCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkhlcnJhbWllbnRhczwvdGV4dD4KICAgIDx0ZXh0IHg9IjgyIiB5PSI2NTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmZmZmIj5EZXNkZSAkOS45OTk8L3RleHQ+CiAgPC9zdmc+" alt="Herramientas manuales"></div>
+            <div class="product-info">
+              <span class="sku">FER-520</span>
+              <h3>Herramientas manuales</h3>
+              <p>Kits utiles para hogar, negocio, reparaciones y ferreteria.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Herramientas manuales.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJKdWd1ZXRlcyI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmNhMzExIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTYzOTQ2Ii8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHJlY3QgeD0iMjEwIiB5PSIzMDUiIHdpZHRoPSIxOTgiIGhlaWdodD0iMTk4IiByeD0iMjIiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNDU1IiB5PSIyNDAiIHdpZHRoPSIxOTgiIGhlaWdodD0iMjYzIiByeD0iMjIiIGZpbGw9IiMyYTlkOGYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGNpcmNsZSBjeD0iNzY1IiBjeT0iMzgyIiByPSIxMDIiIGZpbGw9IiNlNjM5NDYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTI2MCAzNzBoOThNNTA1IDMxMGg5OE02OTUgMzgyaDE0MCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkp1Z3VldGVzPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkRlc2RlICQ5Ljk5OTwvdGV4dD4KICA8L3N2Zz4=" alt="Juguetes didacticos"></div>
+            <div class="product-info">
+              <span class="sku">JUG-270</span>
+              <h3>Juguetes didacticos</h3>
+              <p>Opciones para regalos, fechas especiales y vitrinas familiares.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Juguetes didacticos.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-media"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJCb2xzb3MiPgogICAgPGRlZnM+CiAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2U2Mzk0NiIvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzE0MjEzZCIvPgogICAgICA8L2xpbmVhckdyYWRpZW50PgogICAgICA8cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjQ0IiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgICA8cGF0aCBkPSJNNDQgMEgwVjQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS1vcGFjaXR5PSIuMTMiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZykiLz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNncmlkKSIvPgogICAgPHJlY3QgeD0iNDIiIHk9IjQyIiB3aWR0aD0iOTE2IiBoZWlnaHQ9IjYzNiIgcng9IjMyIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIuMTYiLz4KICAgIDxwYXRoIGQ9Ik0yODUgMzIwYzAtOTYgNzgtMTcwIDE3NC0xNzBoODJjOTYgMCAxNzQgNzQgMTc0IDE3MHYyODZIMjg1VjMyMFoiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTM2NyAzMjBjMC02OCA1Mi0xMDggMTMzLTEwOHMxMzMgNDAgMTMzIDEwOCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMjAgNjA3aDU2MCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjcyNSIgY3k9IjIwOCIgcj0iNjQiIGZpbGw9IiNlNjM5NDYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgICA8cmVjdCB4PSI1NCIgeT0iNTIiIHdpZHRoPSIzOTAiIGhlaWdodD0iOTIiIHJ4PSIxMCIgZmlsbD0iIzE0MjEzZCIgb3BhY2l0eT0iLjk0Ii8+CiAgICA8dGV4dCB4PSI4MiIgeT0iMTA2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiI+Qm9sc29zPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkRlc2RlICQ5Ljk5OTwvdGV4dD4KICA8L3N2Zz4=" alt="Bolsos y accesorios"></div>
+            <div class="product-info">
+              <span class="sku">MOD-615</span>
+              <h3>Bolsos y accesorios</h3>
+              <p>Complementos llamativos para tiendas, regalos y ventas digitales.</p>
+              <div class="price-row"><strong>Desde $9.999</strong><span>Mayor y detal</span></div>
+              <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero cotizar Bolsos y accesorios.">Cotizar por WhatsApp</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="mayoristas">
+      <div class="container split">
+        <article class="panel">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJDYXRhbG9nbyBUb2RvbWl4Ij4KICAgIDxkZWZzPgogICAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNlNjM5NDYiLz4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMxNDIxM2QiLz4KICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgPHBhdGggZD0iTTQ0IDBIMFY0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utb3BhY2l0eT0iLjEzIiBzdHJva2Utd2lkdGg9IjIiLz4KICAgICAgPC9wYXR0ZXJuPgogICAgPC9kZWZzPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2cpIi8+CiAgICA8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSI3MjAiIGZpbGw9InVybCgjZ3JpZCkiLz4KICAgIDxyZWN0IHg9IjQyIiB5PSI0MiIgd2lkdGg9IjkxNiIgaGVpZ2h0PSI2MzYiIHJ4PSIzMiIgZmlsbD0iI2ZmZmZmZiIgb3BhY2l0eT0iLjE2Ii8+CiAgICA8cmVjdCB4PSIyMTAiIHk9IjE1NSIgd2lkdGg9IjU2MCIgaGVpZ2h0PSI0NDAiIHJ4PSIyOCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiLz48cGF0aCBkPSJNMzAwIDI1MGgzODBNMzAwIDM1MGgzODBNMzAwIDQ1MGgyNTAiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGZpbGw9Im5vbmUiLz48cmVjdCB4PSIzMDAiIHk9IjUwMCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI1OCIgcng9IjEyIiBmaWxsPSIjMmE5ZDhmIiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIvPjxjaXJjbGUgY3g9IjY5MCIgY3k9IjUyMCIgcj0iNTQiIGZpbGw9IiNlNjM5NDYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+CiAgICA8cmVjdCB4PSI1NCIgeT0iNTIiIHdpZHRoPSIzOTAiIGhlaWdodD0iOTIiIHJ4PSIxMCIgZmlsbD0iIzE0MjEzZCIgb3BhY2l0eT0iLjk0Ii8+CiAgICA8dGV4dCB4PSI4MiIgeT0iMTA2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzNiIgZm9udC13ZWlnaHQ9IjkwMCIgZmlsbD0iI2ZmZmZmZiI+Q2F0YWxvZ28gVG9kb21peDwvdGV4dD4KICAgIDx0ZXh0IHg9IjgyIiB5PSI2NTYiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4IiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjZmZmZmZmIj5Db3RpemFjaW9uZXMgcmFwaWRhcyBwb3IgV2hhdHNBcHA8L3RleHQ+CiAgPC9zdmc+" alt="Catalogo mayorista Todomix">
+          <div>
+            <h3>Compra para tu negocio</h3>
+            <p>Recibe listas por categoria, paquetes surtidos y opciones para tiendas, emprendimientos, vitrinas y ventas online.</p>
+            <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, tengo un negocio y quiero comprar al por mayor.">Soy mayorista</a>
+          </div>
+        </article>
+        <article class="panel">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJFbnZpb3MgbmFjaW9uYWxlcyI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmE5ZDhmIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTQyMTNkIi8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHJlY3QgeD0iMTk1IiB5PSIzMDQiIHdpZHRoPSIzMDAiIGhlaWdodD0iMjI1IiByeD0iMTgiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNTU1IiB5PSIyNDIiIHdpZHRoPSIyNjUiIGhlaWdodD0iMjg3IiByeD0iMTgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTE5NSAzNjVoMzAwTTU1NSAzMjBoMjY1TTM0NSAzMDR2MjI1TTY4OCAyNDJ2Mjg3TTE0NSA2MjVoNzY1IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxNSA2MjVoNTA1bDExMC03OCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkVudmlvcyBuYWNpb25hbGVzPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkRlc3BhY2hvIGEgdG9kYSBDb2xvbWJpYTwvdGV4dD4KICA8L3N2Zz4=" alt="Envios nacionales Todomix">
+          <div>
+            <h3>Tambien vendemos al detal</h3>
+            <p>Pregunta por unidades, regalos, combos y disponibilidad. Te ayudamos a escoger productos utiles y llamativos.</p>
+            <a class="btn btn-light js-whatsapp" href="#" data-message="Hola Todomix, quiero comprar productos al detal.">Comprar al detal</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="envios" class="band">
+      <div class="container trust-grid">
+        <div class="trust-image">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDcyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJFbnZpb3MgbmFjaW9uYWxlcyI+CiAgICA8ZGVmcz4KICAgICAgPGxpbmVhckdyYWRpZW50IGlkPSJnIiB4MT0iMCIgeTE9IjAiIHgyPSIxIiB5Mj0iMSI+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMmE5ZDhmIi8+CiAgICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTQyMTNkIi8+CiAgICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNDQiIGhlaWdodD0iNDQiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPgogICAgICAgIDxwYXRoIGQ9Ik00NCAwSDBWNDQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLW9wYWNpdHk9Ii4xMyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgICAgIDwvcGF0dGVybj4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjcyMCIgZmlsbD0idXJsKCNnKSIvPgogICAgPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iNzIwIiBmaWxsPSJ1cmwoI2dyaWQpIi8+CiAgICA8cmVjdCB4PSI0MiIgeT0iNDIiIHdpZHRoPSI5MTYiIGhlaWdodD0iNjM2IiByeD0iMzIiIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9Ii4xNiIvPgogICAgPHJlY3QgeD0iMTk1IiB5PSIzMDQiIHdpZHRoPSIzMDAiIGhlaWdodD0iMjI1IiByeD0iMTgiIGZpbGw9IiNmY2EzMTEiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHJlY3QgeD0iNTU1IiB5PSIyNDIiIHdpZHRoPSIyNjUiIGhlaWdodD0iMjg3IiByeD0iMTgiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzE0MjEzZCIgc3Ryb2tlLXdpZHRoPSI4Ii8+PHBhdGggZD0iTTE5NSAzNjVoMzAwTTU1NSAzMjBoMjY1TTM0NSAzMDR2MjI1TTY4OCAyNDJ2Mjg3TTE0NSA2MjVoNzY1IiBzdHJva2U9IiMxNDIxM2QiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIxNSA2MjVoNTA1bDExMC03OCIgc3Ryb2tlPSIjMTQyMTNkIiBzdHJva2Utd2lkdGg9IjgiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjUyIiB3aWR0aD0iMzkwIiBoZWlnaHQ9IjkyIiByeD0iMTAiIGZpbGw9IiMxNDIxM2QiIG9wYWNpdHk9Ii45NCIvPgogICAgPHRleHQgeD0iODIiIHk9IjEwNiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtd2VpZ2h0PSI5MDAiIGZpbGw9IiNmZmZmZmYiPkVudmlvcyBuYWNpb25hbGVzPC90ZXh0PgogICAgPHRleHQgeD0iODIiIHk9IjY1NiIgZm9udC1mYW1pbHk9IkFyaWFsLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjgiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiNmZmZmZmYiPkRlc3BhY2hvIGEgdG9kYSBDb2xvbWJpYTwvdGV4dD4KICA8L3N2Zz4=" alt="Bodega, despacho y envios a toda Colombia">
+        </div>
+        <div>
+          <div class="section-head">
+            <h2>Atencion simple y profesional</h2>
+          </div>
+          <div class="steps">
+            <article class="step"><b>1</b><div><h3>Solicita el catalogo</h3><p>Escribenos por WhatsApp y dinos si compras para negocio, regalo o uso personal.</p></div></article>
+            <article class="step"><b>2</b><div><h3>Confirma disponibilidad</h3><p>Te compartimos fotos, referencias, precios, cantidades y alternativas.</p></div></article>
+            <article class="step"><b>3</b><div><h3>Cotiza desde $9.999</h3><p>Arma tu pedido con productos de diferentes secciones y presupuesto.</p></div></article>
+            <article class="step"><b>4</b><div><h3>Recibe en Colombia</h3><p>Coordinamos entrega o envio nacional segun ciudad, cantidad y disponibilidad.</p></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="section-head">
+          <h2>Preguntas frecuentes</h2>
+          <p>Informacion clave para que el visitante se anime a escribir y avanzar con la compra.</p>
+        </div>
+        <div class="faq">
+          <details open><summary>Venden al por mayor?</summary><p>Si. Atendemos negocios, emprendedores y compradores que necesitan surtido por categoria.</p></details>
+          <details><summary>Venden al detal?</summary><p>Si, segun disponibilidad. Puedes preguntar por unidades o combos desde WhatsApp.</p></details>
+          <details><summary>Hacen envios?</summary><p>Si. Coordinamos envios a toda Colombia segun ciudad, cantidad y disponibilidad.</p></details>
+          <details><summary>Como recibo precios?</summary><p>Presiona cualquier boton de WhatsApp y solicita catalogo, fotos y cotizacion actualizada.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto">
+      <div class="container">
+        <div>
+          <p class="eyebrow">Atencion inmediata</p>
+          <h2>Habla con Todomix por WhatsApp</h2>
+          <p>Cuéntanos que buscas y te enviamos catalogo, disponibilidad, precios y opciones de envio. Ideal para compradores finales, mayoristas y emprendimientos.</p>
+          <a class="btn btn-whatsapp js-whatsapp" href="#" data-message="Hola Todomix, quiero asesoria para elegir productos.">Hablar con asesor</a>
+        </div>
+        <form class="contact-card" id="quoteForm">
+          <h3>Solicitud rapida</h3>
+          <label for="name">Nombre</label>
+          <input id="name" name="name" type="text" placeholder="Tu nombre">
+          <label for="category">Categoria</label>
+          <select id="category" name="category">
+            <option>Tecnologia</option>
+            <option>Hogar</option>
+            <option>Belleza</option>
+            <option>Moda y accesorios</option>
+            <option>Juguetes</option>
+            <option>Ferreteria</option>
+            <option>Oficina y papeleria</option>
+            <option>Auto y moto</option>
+            <option>Compra mayorista</option>
+          </select>
+          <label for="details">Mensaje</label>
+          <textarea id="details" name="details" placeholder="Quiero recibir catalogo, precios y disponibilidad."></textarea>
+          <button class="btn btn-whatsapp" type="submit">Enviar por WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p><strong>Todomix Importadora</strong> | Productos desde $9.999</p>
+      <p>Envios a toda Colombia | WhatsApp: +57 316 734 1294</p>
+    </div>
+  </footer>
+
+  <a class="floating-whatsapp js-whatsapp" href="#" aria-label="Abrir WhatsApp" data-message="Hola Todomix, vengo de la pagina web y quiero informacion.">W</a>
+
+  <script>
+    const WHATSAPP_NUMBER = "573167341294";
+    function openWhatsapp(message) {
+      const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+      window.open(url, "_blank", "noopener");
+    }
+    document.querySelectorAll(".js-whatsapp").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        openWhatsapp(button.dataset.message || "Hola Todomix, quiero informacion.");
+      });
+    });
+    document.getElementById("quoteForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const name = form.get("name") || "Cliente";
+      const category = form.get("category") || "productos";
+      const details = form.get("details") || "Quiero recibir informacion y precios.";
+      openWhatsapp("Hola Todomix, soy " + name + ". Me interesa: " + category + ". " + details);
+    });
+  </script>
+</body>
+</html>
